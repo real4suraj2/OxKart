@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   String _primaryTxt, _secondaryTxt, _tertiaryTxt;
   double _yOffset;
 
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -18,18 +21,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       _bg = Colors.transparent;
       _primary = Colors.black;
       _secondary = Colors.green;
-      _primaryTxt = "All your needs";
-      _secondaryTxt = "Resolved";
-      _tertiaryTxt = "Buy | Sell agricultural products at reasonable prices";
+      _primaryTxt = "Welcome To";
+      _secondaryTxt = "Oxkart";
+      _tertiaryTxt =
+          "India's food supply chain and B2B market place for farmers and retailers.";
       _yOffset = height;
     } else {
       _bg = Colors.green;
       _primary = Colors.white;
       _secondary = Colors.white;
-      _primaryTxt = "Welcome To";
-      _secondaryTxt = "Oxkart";
+      _primaryTxt = "We make farmers";
+      _secondaryTxt = "Independent";
       _tertiaryTxt =
-          "India's food supply chain and B2B market place for farmers and retailers";
+          "Buy | Sell agricultural products at reasonable prices only at Oxkart.";
       _yOffset = 300.0;
     }
     return Stack(
@@ -80,6 +84,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               color: _secondary,
                             ),
                             textAlign: TextAlign.center),
+                        SizedBox(height: 6.0),
                         Text('$_tertiaryTxt',
                             style: TextStyle(fontSize: 12.0, color: _primary),
                             textAlign: TextAlign.center),
