@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:masonry_grid/masonry_grid.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+
+import 'package:oxkart/widgets/heading.dart';
+import 'package:oxkart/widgets/search_menu.dart';
+import 'package:oxkart/widgets/image_card.dart';
+import 'package:oxkart/widgets/image_card_small.dart';
+import 'package:oxkart/widgets/image_card_big.dart';
 
 import 'package:oxkart/mock.dart';
 import 'package:oxkart/constants.dart';
-
-import 'package:oxkart/widgets/image_card.dart';
-import 'package:oxkart/widgets/sidebar/sidebar_layout.dart';
-import 'package:oxkart/widgets/heading.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -14,121 +16,109 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<Widget> pesticides = List.generate(IMG_DISPLAY_NO + 1, (i) {
-    if (i == IMG_DISPLAY_NO) return ImageCard();
-    return ImageCard(data: PESTICIDES[i], show: true);
-  });
-  List<Widget> products = List.generate(IMG_DISPLAY_NO + 1, (i) {
-    if (i == IMG_DISPLAY_NO) return ImageCard();
-    return ImageCard(data: FARM_PRODUCTS[i], show: true);
-  });
-  List<Widget> machines = List.generate(IMG_DISPLAY_NO + 1, (i) {
-    if (i == IMG_DISPLAY_NO) return ImageCard();
-    return ImageCard(data: FARM_MACHINES[i], show: true);
+  List<Widget> topItems = List.generate(
+      TOPCONTAINER.length,
+      (i) => ImageCardSmall(
+          TOPCONTAINER[i]['uri'], TOPCONTAINER[i]['title'][LANG]));
+  List<Widget> categoryItems = List.generate(TOPCONTAINER.length, (i) {
+    String title = TOPCONTAINER[i]['title'][LANG];
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Heading('$title'),
+          Container(
+            height: 300.0,
+            child: ListView.builder(
+              itemCount: 10,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) => ImageCard(
+                  'assets/images/logo.png',
+                  'Oxkart Diet(Instant Plant Food) - 500 ml',
+                  "\u20B9" + "250.00"),
+            ),
+          ),
+        ],
+      ),
+    );
   });
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: Color(0xffbeff3f6),
-      body: Container(
-        margin: EdgeInsets.only(top: 24.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/vines.png'),
-            fit: BoxFit.cover,
+      appBar: AppBar(
+        title: Text('OXKART'),
+        elevation: 0.0,
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Icon(Icons.shopping_cart, size: 26.0),
+            ),
           ),
-        ),
-        child: Stack(
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Icon(Icons.account_circle, size: 26.0),
+            ),
+          ),
+        ],
+      ),
+      body: Container(
+        child: Column(
           children: <Widget>[
-            Container(
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Heading('Crop Essentials'),
+            SearchMenu(),
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 100.0,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: TOPCONTAINER.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            topItems[index]),
                   ),
-                  SliverToBoxAdapter(
-                    child: MasonryGrid(
-                      column: GRID_SIZE,
-                      mainAxisSpacing: 12.0,
-                      crossAxisSpacing: 12.0,
-                      children: pesticides,
+                  SizedBox(height: 6.0),
+                  SizedBox(
+                      height: 1.0,
+                      width: double.infinity,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(color: Colors.grey[300]),
+                      )),
+                  SizedBox(height: 6.0),
+                  SizedBox(
+                    height: 250.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: new Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return ImageCardBig(SLOGANS[index]['uri'],
+                            SLOGANS[index]['title'][LANG]);
+                      },
+                      control: new SwiperControl(),
+                      loop: true,
+                      autoplay: true,
+                      itemCount: SLOGANS.length,
+                      viewportFraction: 1.0,
+                      scale: 0.9,
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: Heading('Farm Products'),
-                  ),
-                  SliverToBoxAdapter(
-                    child: MasonryGrid(
-                      column: GRID_SIZE,
-                      mainAxisSpacing: 12.0,
-                      crossAxisSpacing: 12.0,
-                      children: products,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Heading('Farm Essentials'),
-                  ),
-                  SliverToBoxAdapter(
-                    child: MasonryGrid(
-                      column: GRID_SIZE,
-                      mainAxisSpacing: 12.0,
-                      crossAxisSpacing: 12.0,
-                      children: machines,
+                  Container(
+                    child: Column(
+                      children: List.generate(
+                          categoryItems.length, (i) => categoryItems[i]),
                     ),
                   ),
                 ],
               ),
             ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: GestureDetector(
-                  onTap: () {
-                    _scaffoldKey.currentState.openEndDrawer();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(12.0),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 32.0,
-                        height: 32.0,
-                        decoration: BoxDecoration(
-                          color: Color(0xffbeff3f6),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.1),
-                              offset: Offset(4, 2),
-                              blurRadius: 4.0,
-                              spreadRadius: 2.0,
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(255, 255, 255, 0.8),
-                              offset: Offset(-4, -2),
-                              blurRadius: 4.0,
-                              spreadRadius: 2.0,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: new Icon(
-                            Icons.menu,
-                            size: 20.0,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-            ),
           ],
         ),
       ),
-      endDrawer: SidebarLayout('dashboard'),
+      drawer: Drawer(),
     );
   }
 }

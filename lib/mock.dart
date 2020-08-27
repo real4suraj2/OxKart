@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+const List<String> LANGS = [
+  'English',
+  'Hindi',
+];
+
+// -------------------------- MOCK DATA ------------------ //
 const List<Map<String, dynamic>> PESTICIDES = [
   {
     'uri': 'https://drive.google.com/uc?id=1xUi0fiCijvNSSpWQUJQ-aj3Y50V2rLhf',
@@ -88,4 +94,108 @@ const List<Map<String, dynamic>> FARM_MACHINES = [
     'name': 'Electric pesticide sprayer',
     'unit': 'unit'
   }
+];
+const List<Map<String, dynamic>> SLOGANS = [
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Providing Modern Retail Experience To Indian Farmers',
+      'Hindi': '',
+    },
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Forum: Learn from Agri Experts',
+      'Hindi': '',
+    },
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Connecting Bharat with Digital India',
+      'Hindi': '',
+    }
+  }
+];
+
+//-------------PRODUCT STRUCTURE-------------//
+
+var PRODUCT_STRUCTURE = {
+  'uri': '',
+  'id': '',
+  'title': {'English': '', 'Hindi': ''},
+  'description': {'English': '', 'Hindi': ''},
+  'price': '',
+  'stock': '',
+  'soldBy': {'English': '', 'Hindi': ''},
+  //etc
+};
+
+//-------------------------------------------//
+
+const List<Map<String, dynamic>> TOPCONTAINER = [
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Gardening',
+      'Hindi': 'बागवानी',
+    },
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Bio Fertilisers',
+      'Hindi': 'जैव उर्वरक',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Water Soluble Fertilisers',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Speciality Fertilisers',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Growth Promoters',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Seeds',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Insecticide',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Herbicide',
+      'Hindi': '',
+    }
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'title': {
+      'English': 'Fungicide',
+      'Hindi': '',
+    }
+  },
 ];
