@@ -6,6 +6,7 @@ import 'package:oxkart/widgets/search_menu.dart';
 import 'package:oxkart/widgets/image_card.dart';
 import 'package:oxkart/widgets/image_card_small.dart';
 import 'package:oxkart/widgets/image_card_big.dart';
+import 'package:oxkart/widgets/drawer.dart';
 
 import 'package:oxkart/mock.dart';
 import 'package:oxkart/constants.dart';
@@ -20,6 +21,7 @@ class _DashboardState extends State<Dashboard> {
       TOPCONTAINER.length,
       (i) => ImageCardSmall(
           TOPCONTAINER[i]['uri'], TOPCONTAINER[i]['title'][LANG]));
+
   List<Widget> categoryItems = List.generate(TOPCONTAINER.length, (i) {
     String title = TOPCONTAINER[i]['title'][LANG];
     return Container(
@@ -118,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      drawer: Drawer(),
+      drawer: AppDrawer(),
     );
   }
 }

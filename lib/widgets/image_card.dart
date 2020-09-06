@@ -15,27 +15,32 @@ class ImageCard extends StatelessWidget {
       width: 150.0,
       height: 150.0,
       margin: EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 150.0,
-            height: 150.0,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.green),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, productRoute);
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: 150.0,
+              height: 150.0,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.green),
+              ),
+              child: Center(
+                child: Image.asset('$uri'),
+              ),
             ),
-            child: Center(
-              child: Image.asset('$uri'),
+            Container(
+              child: Text('$info',
+                  style: TextStyle(fontSize: 16.0, color: Colors.grey[700])),
             ),
-          ),
-          Container(
-            child: Text('$info',
-                style: TextStyle(fontSize: 16.0, color: Colors.grey[700])),
-          ),
-          Container(
-            child: Text('$price', style: TextStyle(fontSize: 18.0)),
-          ),
-        ],
+            Container(
+              child: Text('$price', style: TextStyle(fontSize: 18.0)),
+            ),
+          ],
+        ),
       ),
     );
   }

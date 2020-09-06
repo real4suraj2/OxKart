@@ -199,3 +199,41 @@ const List<Map<String, dynamic>> TOPCONTAINER = [
     }
   },
 ];
+
+const List<Map<String, dynamic>> DETAILS = [
+  {
+    'title': {
+      'English': 'Benefits',
+      'Hindi': '',
+    },
+    'content': [
+      'Ready to use soil mix',
+      'Provides all essential nutrients in balance',
+      'Customized Blend suitable for all products.',
+      'Improves Nutrient Efficiency',
+    ],
+  },
+  {
+    'title': {
+      'English': 'How to Use',
+      'Hindi': '',
+    },
+    'content': [
+      'Fill 3/4 Pot with Magic Soil, and re-pot your plants.',
+      'Fill balance pot with Magic Soil and moisten mixture.',
+      'Use 5Kg of Magic Soil per 12” dia pot, or Cover 5 Sq.Ft with ½ inch depth',
+      'Be careful to not disturb the roots structure while transplanting.',
+    ],
+  },
+  {
+    'title': {
+      'English': 'Precautions',
+      'Hindi': '',
+    },
+    'content': [
+      'Close Packet after every use.',
+      'Keep in a cool and dry place.',
+      'Keep out of reach of children.',
+    ],
+  },
+];

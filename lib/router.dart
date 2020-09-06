@@ -8,6 +8,7 @@ import 'package:oxkart/screens/profile_screen.dart';
 import 'package:oxkart/screens/sell_screen.dart';
 import 'package:oxkart/screens/search_screen.dart';
 import 'package:oxkart/screens/cart_screen.dart';
+import 'package:oxkart/screens/product_screen.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,6 +25,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => Cart());
       case searchRoute:
         return MaterialPageRoute(builder: (_) => Search());
+      case productRoute:
+        return MaterialPageRoute(builder: (_) => Product());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
