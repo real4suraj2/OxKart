@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:oxkart/blocs/auth_bloc.dart';
 
 import 'package:oxkart/constants.dart';
+import 'package:oxkart/providers/bloc_provider.dart';
+import 'package:provider/provider.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class _WelcomeState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = Provider.of<BlocProvider>(context).bloc;
     final height = MediaQuery.of(context).size.height;
     if (_toggle) {
       _bg = Colors.transparent;
@@ -158,10 +162,7 @@ class _WelcomeState extends State<Welcome> {
                     Container(
                       child: GestureDetector(
                         onTap: () {
-                          setState(() {
-                            print("Google");
-                            Navigator.pushNamed(context, dashboardRoute);
-                          });
+                          authBloc.signinwithgoogle();
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 48.0),
@@ -194,10 +195,7 @@ class _WelcomeState extends State<Welcome> {
                     Container(
                       child: GestureDetector(
                         onTap: () {
-                          setState(() {
-                            print("Facebook");
-                            Navigator.pushNamed(context, dashboardRoute);
-                          });
+                          authBloc.signinwithfacebook();
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 48.0),
