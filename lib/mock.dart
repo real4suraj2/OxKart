@@ -123,12 +123,16 @@ const List<Map<String, dynamic>> SLOGANS = [
 
 var PRODUCT_STRUCTURE = {
   'uri': '',
+  'small_uri': '',
   'id': '',
   'title': {'English': '', 'Hindi': ''},
   'description': {'English': '', 'Hindi': ''},
+  'small_description': {'English': '', 'Hindi': ''},
   'price': '',
   'stock': '',
   'soldBy': {'English': '', 'Hindi': ''},
+  'max_per_customer': '',
+  //'requested_amount' : 'Specific to cart after inheriting from product model
   //etc
 };
 
@@ -236,4 +240,49 @@ const List<Map<String, dynamic>> DETAILS = [
       'Keep out of reach of children.',
     ],
   },
+];
+
+List<Map<String, dynamic>> CART_PRODUCTS = [
+  {
+    'uri': 'assets/images/logo.png',
+    'small_uri': 'assets/images/logo.png',
+    'id': 'x233',
+    'title': {'English': 'Magic Soil', 'Hindi': ''},
+    'description': {'English': '', 'Hindi': ''},
+    'small_description': {'English': 'Soil Fertilizer', 'Hindi': ''},
+    'price': '240.49',
+    'stock': '38000',
+    'soldBy': {'English': 'Oxkart Ltd', 'Hindi': ''},
+    'max_per_customer': '5',
+    'requested_amount': '1',
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'small_uri': 'assets/images/logo.png',
+    'id': 'x234',
+    'title': {'English': 'Resorax 1832 Crop fertilizer', 'Hindi': ''},
+    'description': {'English': '', 'Hindi': ''},
+    'small_description': {'English': 'Crop Fertilizer', 'Hindi': ''},
+    'price': '1140.49',
+    'stock': '38000',
+    'soldBy': {'English': 'Oxkart Ltd', 'Hindi': ''},
+    'max_per_customer': '5',
+    'requested_amount': '1',
+  },
+  {
+    'uri': 'assets/images/logo.png',
+    'small_uri': 'assets/images/logo.png',
+    'id': 'x235',
+    'title': {
+      'English': 'Oxkart Diet(Instant Plant Food) - 500 ml',
+      'Hindi': ''
+    },
+    'description': {'English': '', 'Hindi': ''},
+    'small_description': {'English': 'Soil Fertilizer', 'Hindi': ''},
+    'price': '1000.00',
+    'stock': '38000',
+    'soldBy': {'English': 'Oxkart Ltd', 'Hindi': ''},
+    'max_per_customer': '5',
+    'requested_amount': '2',
+  }
 ];

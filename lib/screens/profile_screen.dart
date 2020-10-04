@@ -1,39 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:oxkart/providers/bloc_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:oxkart/services/auth.dart';
 
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authbloc = Provider.of<BlocProvider>(context).bloc;
-    User user = authbloc.user;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        actions: [
-          FlatButton.icon(
-              label: Text('Log Out'),
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                authbloc.signOut();
-                Navigator.pop(context);
-              })
-        ],
-      ),
+      appBar: AppBar(),
       body: Container(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(user.displayName),
-            Image.network(
-              user.photoURL,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-            )
-          ],
+        child: Center(
+          child: FlatButton(
+              child: Text("Log Out"),
+              textColor: Colors.white,
+              color: Colors.green,
+              onPressed: () {
+                Auth().signOutUser(context);
+              }),
         ),
       ),
     );

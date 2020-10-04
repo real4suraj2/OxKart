@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:oxkart/blocs/auth_bloc.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import 'package:oxkart/constants.dart';
-import 'package:oxkart/providers/bloc_provider.dart';
-import 'package:provider/provider.dart';
+
+import 'package:oxkart/services/auth.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -15,10 +15,23 @@ class _WelcomeState extends State<Welcome> {
   Color _bg, _primary, _secondary;
   String _primaryTxt, _secondaryTxt, _tertiaryTxt;
   double _yOffset;
+  bool _keyboardVisible = false;
+  bool _loading = false;
+
+  final _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibilityNotification().addNewListener(onChange: (bool visible) {
+      setState(() {
+        _keyboardVisible = visible;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = Provider.of<BlocProvider>(context).bloc;
     final height = MediaQuery.of(context).size.height;
     if (_toggle) {
       _bg = Colors.transparent;
@@ -37,7 +50,7 @@ class _WelcomeState extends State<Welcome> {
       _secondaryTxt = "Independent";
       _tertiaryTxt =
           "Buy | Sell agricultural products at reasonable prices only at Oxkart.";
-      _yOffset = 300.0;
+      _yOffset = _keyboardVisible ? 100.0 : 300.0;
     }
     return Scaffold(
       body: Stack(
@@ -134,7 +147,6 @@ class _WelcomeState extends State<Welcome> {
             curve: Curves.fastLinearToSlowEaseIn,
             duration: Duration(milliseconds: 1000),
             transform: Matrix4.translationValues(0, _yOffset, 1),
-            height: height - 300.0,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -143,7 +155,6 @@ class _WelcomeState extends State<Welcome> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   width: 24.0,
@@ -157,83 +168,70 @@ class _WelcomeState extends State<Welcome> {
                         child: Image.asset('assets/icons/arrow_down.png'),
                       )),
                 ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      child: GestureDetector(
-                        onTap: () {
-                          authBloc.signinwithgoogle();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 48.0),
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            border: Border.all(
-                              color: Colors.grey,
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 100.0),
+                      Container(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 6.0),
+                          child: TextField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                  color: Colors.green,
+                                  width: 2,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                  color: Colors.green,
+                                  width: 3,
+                                ),
+                              ),
+                              hintStyle: TextStyle(fontSize: 16.0),
+                              hintText: 'Mobile Number',
+                              prefixIcon: Icon(Icons.local_phone,
+                                  size: 18.0, color: Colors.green),
+                              contentPadding: EdgeInsets.all(14.0),
                             ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              SizedBox(width: 0.2),
-                              Container(
-                                width: 24.0,
-                                child: Image.asset('assets/icons/google.png'),
-                              ),
-                              Text(
-                                'SignIn with Google',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                              SizedBox(width: 12.0),
-                            ],
+                            keyboardType: TextInputType.number,
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16.0),
-                    Container(
-                      child: GestureDetector(
-                        onTap: () {
-                          authBloc.signinwithfacebook();
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 48.0),
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              SizedBox(width: 6.0),
-                              Container(
-                                width: 24.0,
-                                child: Image.asset('assets/icons/facebook.png'),
-                              ),
-                              Text(
-                                'SignIn with Facebook',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                              SizedBox(width: 6.0),
-                            ],
-                          ),
+                      SizedBox(height: 12.0),
+                      Container(
+                        child: GestureDetector(
+                          onTap: () async {
+                            final phone = _phoneController.text.trim();
+                            await Auth().signInUser(phone, context);
+                          },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 100.0),
+                              padding: EdgeInsets.symmetric(vertical: 12.0),
+                              color: Colors.green,
+                              child: Center(
+                                child: Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16.0),
+                                ),
+                              )),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                SizedBox(height: 100.0),
                 Container(
                   margin: EdgeInsets.only(bottom: 16.0),
                   child: GestureDetector(
                       onTap: () {
-                        setState(() {
-                          print("Skipped!");
-                          Navigator.pushNamed(context, dashboardRoute);
-                        });
+                        Auth().skipLogin();
                       },
                       child: Center(
                         child: Text(
@@ -247,7 +245,16 @@ class _WelcomeState extends State<Welcome> {
                 ),
               ],
             ),
-          )
+          ),
+          if (_loading == true)
+            Container(
+              color: Color.fromRGBO(0, 0, 0, 0.3),
+              child: Center(
+                child: Container(
+                    width: 150.0,
+                    child: Image.asset('assets/icons/Loading.gif')),
+              ),
+            ),
         ],
       ),
     );

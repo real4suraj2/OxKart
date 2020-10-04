@@ -46,7 +46,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    print('i built');
     return Scaffold(
       backgroundColor: Color(0xffbeff3f6),
       appBar: AppBar(
@@ -56,7 +55,9 @@ class _DashboardState extends State<Dashboard> {
           Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, cartRoute);
+              },
               child: Icon(Icons.shopping_cart, size: 26.0),
             ),
           ),
@@ -64,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pushNamed(context, profileRoute);
               },
               child: Icon(Icons.account_circle, size: 26.0),
             ),

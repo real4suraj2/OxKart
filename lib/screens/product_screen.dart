@@ -61,7 +61,9 @@ class _ProductState extends State<Product> {
           Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, cartRoute);
+              },
               child: Icon(Icons.shopping_cart, size: 26.0),
             ),
           ),
