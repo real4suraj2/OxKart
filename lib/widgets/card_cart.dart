@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:oxkart/constants.dart';
 
 class CardCart extends StatelessWidget {
-  CardCart(this.cart_product);
-  final Map<String, dynamic> cart_product;
+  CardCart(this.cartProduct);
+  final Map<String, dynamic> cartProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class CardCart extends StatelessWidget {
                 width: 100.0,
                 margin: EdgeInsets.only(left: 6.0),
                 child: Center(
-                  child: Image.asset(cart_product['small_uri']),
+                  child: Image.asset(cartProduct['small_uri']),
                 ),
               ),
               Container(
@@ -43,7 +43,7 @@ class CardCart extends StatelessWidget {
                         Container(
                           width: 150.0,
                           child: Text(
-                            cart_product['title'][LANG],
+                            cartProduct['title'][LANG],
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
@@ -62,7 +62,7 @@ class CardCart extends StatelessWidget {
                     ),
                     SizedBox(height: 2.0),
                     Text(
-                      cart_product['small_description'][LANG],
+                      cartProduct['small_description'][LANG],
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 10.0,
@@ -71,7 +71,7 @@ class CardCart extends StatelessWidget {
                     ),
                     SizedBox(height: 2.0),
                     Text(
-                      cart_product['soldBy'][LANG],
+                      cartProduct['soldBy'][LANG],
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 10.0,
@@ -98,7 +98,7 @@ class CardCart extends StatelessWidget {
                             child: Icon(Icons.add,
                                 size: 16.0, color: Colors.grey[600]),
                           ),
-                          Text(cart_product['requested_amount']),
+                          Text(cartProduct['requested_amount']),
                           GestureDetector(
                             onTap: () {
                               print('Remove');
@@ -111,7 +111,7 @@ class CardCart extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\u20B9" + cart_product['price'],
+                      "\u20B9" + cartProduct['price'],
                       style: TextStyle(fontSize: 16.0, color: Colors.green),
                     ),
                   ],

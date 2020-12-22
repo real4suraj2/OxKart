@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
-import 'package:oxkart/constants.dart';
-
 import 'package:oxkart/services/auth.dart';
 
 class Welcome extends StatefulWidget {
@@ -16,7 +14,6 @@ class _WelcomeState extends State<Welcome> {
   String _primaryTxt, _secondaryTxt, _tertiaryTxt;
   double _yOffset;
   bool _keyboardVisible = false;
-  bool _loading = false;
 
   final _phoneController = TextEditingController();
 
@@ -246,15 +243,6 @@ class _WelcomeState extends State<Welcome> {
               ],
             ),
           ),
-          if (_loading == true)
-            Container(
-              color: Color.fromRGBO(0, 0, 0, 0.3),
-              child: Center(
-                child: Container(
-                    width: 150.0,
-                    child: Image.asset('assets/icons/Loading.gif')),
-              ),
-            ),
         ],
       ),
     );

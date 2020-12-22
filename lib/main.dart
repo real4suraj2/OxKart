@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:oxkart/router.dart';
 import 'package:oxkart/constants.dart';
-import 'package:oxkart/mock.dart';
 
 import 'package:oxkart/services/auth.dart';
 
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
             fontFamily: LANG == 'English' ? 'Nunito' : 'Nakula',
           ),
-          onGenerateRoute: Router.generateRoute,
+          onGenerateRoute: CustomRouter.generateRoute,
           home: Home(),
         ));
   }

@@ -10,7 +10,7 @@ import 'package:oxkart/screens/search_screen.dart';
 import 'package:oxkart/screens/cart_screen.dart';
 import 'package:oxkart/screens/product_screen.dart';
 
-class Router {
+class CustomRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcomeRoute:

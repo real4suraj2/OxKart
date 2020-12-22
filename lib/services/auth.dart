@@ -20,11 +20,12 @@ class Auth {
         phoneNumber: "+91" + phone,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
+          Navigator.pop(context);
           await _auth.signInWithCredential(credential);
         },
         verificationFailed: (AuthException exception) {
-          print("Error");
-          print(exception);
+          print("Error! Verification Failed");
+          print(exception.message);
         },
         codeSent: (String id, [int forceResendingToken]) {
           showDialog(
@@ -79,7 +80,8 @@ class Auth {
                   ],
                 );
               });
-        });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {});
   }
 
   Future<void> signOutUser(BuildContext context) async {

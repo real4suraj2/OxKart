@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 const List<String> LANGS = [
   'English',
   'Hindi',
@@ -121,7 +119,7 @@ const List<Map<String, dynamic>> SLOGANS = [
 
 //-------------PRODUCT STRUCTURE-------------//
 
-var PRODUCT_STRUCTURE = {
+const PRODUCT_STRUCTURE = {
   'uri': '',
   'small_uri': '',
   'id': '',
@@ -242,7 +240,7 @@ const List<Map<String, dynamic>> DETAILS = [
   },
 ];
 
-List<Map<String, dynamic>> CART_PRODUCTS = [
+const List<Map<String, dynamic>> CART_PRODUCTS = [
   {
     'uri': 'assets/images/logo.png',
     'small_uri': 'assets/images/logo.png',
