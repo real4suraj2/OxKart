@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -92,7 +93,18 @@ class _ProductState extends State<Product> {
                   SizedBox(
                     height: 300.0,
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(widget.url, fit: BoxFit.fill),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.url,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                     // child: new Swiper(
                     //   itemBuilder: (BuildContext context, int index) {
                     //     return Container(

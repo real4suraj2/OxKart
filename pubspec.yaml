@@ -28,6 +28,7 @@ dependencies:
   provider: any
   razorpay_flutter: ^1.2.2
   toast: ^0.1.5
+  cached_network_image: ^2.5.0
 
 dev_dependencies:
   flutter_test:
