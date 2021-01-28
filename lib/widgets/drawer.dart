@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oxkart/screens/orders_screen.dart';
+import 'package:oxkart/services/store.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -17,9 +19,14 @@ class AppDrawer extends StatelessWidget {
             text: 'Shop by Category',
           ),
           _createDrawerItem(
-            icon: Icons.local_shipping,
-            text: 'My Orders',
-          ),
+              icon: Icons.local_shipping,
+              text: 'My Orders',
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Orders()));
+              }),
           _createDrawerItem(
             icon: Icons.chat_bubble_outline,
             text: 'Forums',
@@ -32,7 +39,11 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(
             icon: Icons.store,
             text: 'Sell on oxkart',
-            onTap: () {},
+            onTap: () {
+              // Store store = Store();
+              // Map<String, dynamic> data = await store.orders;
+              // print(data);
+            },
           ),
           _createDrawerItem(
             icon: Icons.local_phone,

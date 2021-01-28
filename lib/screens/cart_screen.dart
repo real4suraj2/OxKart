@@ -107,6 +107,9 @@ class _CartState extends State<Cart> {
                 onTap: () async {
                   // openCheckout();
                   int length = (await store.cart).length;
+                  final _addressController = TextEditingController();
+                  _addressController.text =
+                      'Default Address'; // --> change it with user db value
                   if (length == 0)
                     return Toast.show("Add products first!", context);
                   showDialog(
@@ -119,7 +122,13 @@ class _CartState extends State<Cart> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text(
-                                  'Please review your cart before placing order. You will soon receive a call from us once you place your order')
+                                  'Please review your cart before placing order. You will soon receive a call from us once you place your order'),
+                              TextField(
+                                  controller: _addressController,
+                                  decoration: new InputDecoration(
+                                      hintText: 'Default Address'),
+                                  minLines: 1,
+                                  maxLines: 5),
                             ],
                           ),
                           actions: <Widget>[
@@ -128,7 +137,8 @@ class _CartState extends State<Cart> {
                                 textColor: Colors.white,
                                 color: Colors.green,
                                 onPressed: () async {
-                                  await store.placeOrder();
+                                  await store
+                                      .placeOrder(_addressController.text);
                                   Navigator.pop(context);
                                   Toast.show("Order Placed! Keep Oxkarting :)",
                                       context,

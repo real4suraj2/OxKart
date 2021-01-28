@@ -7,7 +7,10 @@ class Loading extends StatelessWidget {
       backgroundColor: Color(0xffbeff3f6),
       body: Container(
         child: Center(
-          child: Image.asset('assets/images/logo.png'),
+          child: Text(
+            'Loading ...',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

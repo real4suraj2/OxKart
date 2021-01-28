@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import 'package:oxkart/services/auth.dart';
+import 'package:oxkart/widgets/loading.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class _WelcomeState extends State<Welcome> {
   String _primaryTxt, _secondaryTxt, _tertiaryTxt;
   double _yOffset;
   bool _keyboardVisible = false;
+  bool _loading = true;
 
   final _phoneController = TextEditingController();
 
@@ -24,11 +28,17 @@ class _WelcomeState extends State<Welcome> {
       setState(() {
         _keyboardVisible = visible;
       });
+      Timer(
+          Duration(seconds: 1),
+          () => setState(() {
+                _loading = false;
+              }));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) return Loading();
     final height = MediaQuery.of(context).size.height;
     if (_toggle) {
       _bg = Colors.transparent;

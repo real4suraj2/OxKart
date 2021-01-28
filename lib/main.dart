@@ -49,12 +49,12 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     // Show error message if initialization failed
     if (_error) {
-      return Error();
+      return MaterialApp(home: Error());
     }
 
-    // Show a loader until FlutterFire is initialized
+    // // Show a loader until FlutterFire is initialized
     if (!_initialized) {
-      return Loading();
+      return MaterialApp(home: Loading());
     }
 
     return StreamProvider<User>.value(

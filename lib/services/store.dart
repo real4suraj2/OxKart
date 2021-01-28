@@ -133,7 +133,7 @@ class Store {
         .catchError((error) => print("Failed to add product: $error"));
   }
 
-  Future<void> placeOrder() async {
+  Future<void> placeOrder(String address) async {
     User user = await Auth().user.first;
     List<dynamic> data = await cart;
     Map<String, dynamic> newData = {};
@@ -141,11 +141,37 @@ class Store {
       newData.addAll({t['item']: t['quantity']});
     }
     newData['phone-number'] = user.phoneNumber;
+    newData['address'] = address;
     await _firestore
         .collection('orders')
         .add(newData)
         .then((value) => print("Order Placed"))
         .catchError((error) => print("Failed to place order: $error"));
+
+    String time = (new DateTime.now().millisecondsSinceEpoch).toString();
+
+    await _firestore
+        .collection('histories')
+        .doc(user.phoneNumber)
+        .collection(time)
+        .add(newData)
+        .then((value) => print("Order Added to Placed Orders"))
+        .catchError((error) => print("Failed to add to placed order: $error"));
+
+    await _firestore
+        .collection('histories')
+        .doc(user.phoneNumber)
+        .update({time: time})
+        .then((value) => print("Ref added"))
+        .catchError((error) async {
+          print("Failed to add ref");
+          await _firestore
+              .collection('histories')
+              .doc(user.phoneNumber)
+              .set({time: time})
+              .then((value) => print("Generation successful"))
+              .catchError((error) => print("Failed completely"));
+        });
 
     await _firestore
         .collection('carts')
@@ -153,5 +179,26 @@ class Store {
         .set({})
         .then((value) => print("Cart Cleared"))
         .catchError((error) => print("Failed to clear cart: $error"));
+  }
+
+  Future<Map<String, dynamic>> get orders async {
+    User user = await Auth().user.first;
+    Map<String, dynamic> data = {};
+    List<String> enteries = [];
+    dynamic ref = _firestore.collection('histories').doc(user.phoneNumber);
+    await ref.get().then((DocumentSnapshot documentSnapshot) => {
+          if (documentSnapshot.data() != null)
+            documentSnapshot.data().forEach((entry, index) {
+              // print(entry);
+              enteries.add(entry);
+            })
+        });
+    for (String entry in enteries) {
+      await ref.collection(entry).get().then((QuerySnapshot querySnapshot) => {
+            if (querySnapshot.docs != null)
+              querySnapshot.docs.forEach((doc) => {data[entry] = doc.data()})
+          });
+    }
+    return data;
   }
 }
