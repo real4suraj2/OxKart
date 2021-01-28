@@ -1,29 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-class User {
-  String uid;
-  User({this.uid});
-}
+import 'package:flutter/material.dart';
 
 class Auth {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   Stream<User> get user {
-    return _auth.onAuthStateChanged.map((FirebaseUser firebaseUser) =>
-        (firebaseUser != null) ? User(uid: firebaseUser.uid) : null);
+    return _auth.authStateChanges().map(
+        (User firebaseUser) => (firebaseUser != null) ? firebaseUser : null);
+    // return _auth.onAuthStateChanged.map((FirebaseUser firebaseUser) =>
+    //     (firebaseUser != null) ? User(uid: firebaseUser.uid) : null);
   }
 
   Future<void> signInUser(String phone, BuildContext context) async {
     final _otpController = TextEditingController();
-    _auth.verifyPhoneNumber(
+    await _auth.verifyPhoneNumber(
         phoneNumber: "+91" + phone,
         timeout: Duration(seconds: 60),
-        verificationCompleted: (AuthCredential credential) async {
+        verificationCompleted: (PhoneAuthCredential credential) async {
           Navigator.pop(context);
           await _auth.signInWithCredential(credential);
         },
-        verificationFailed: (AuthException exception) {
+        verificationFailed: (FirebaseAuthException exception) {
           print("Error! Verification Failed");
           print(exception.message);
         },
@@ -68,8 +65,8 @@ class Auth {
                         textColor: Colors.white,
                         color: Colors.green,
                         onPressed: () async {
-                          AuthCredential credential =
-                              PhoneAuthProvider.getCredential(
+                          PhoneAuthCredential credential =
+                              PhoneAuthProvider.credential(
                                   verificationId: id,
                                   smsCode: _otpController.text.trim());
                           await _auth.signInWithCredential(credential);

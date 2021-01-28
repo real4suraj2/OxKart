@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:oxkart/constants.dart';
+// import 'package:oxkart/constants.dart';
+import 'package:oxkart/screens/cart_screen.dart';
+import 'package:oxkart/services/store.dart';
 
 class CardCart extends StatelessWidget {
   CardCart(this.cartProduct);
   final Map<String, dynamic> cartProduct;
+  final Store store = Store();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class CardCart extends StatelessWidget {
                 width: 100.0,
                 margin: EdgeInsets.only(left: 6.0),
                 child: Center(
-                  child: Image.asset(cartProduct['small_uri']),
+                  child: Image.asset('assets/images/logo.png'),
                 ),
               ),
               Container(
@@ -43,7 +46,7 @@ class CardCart extends StatelessWidget {
                         Container(
                           width: 150.0,
                           child: Text(
-                            cartProduct['title'][LANG],
+                            cartProduct['item'],
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
@@ -52,8 +55,13 @@ class CardCart extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             print('Delete');
+                            await store.deleteProduct(cartProduct['item']);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => Cart()));
                           },
                           child: Icon(Icons.delete,
                               size: 22.0, color: Colors.grey[800]),
@@ -61,17 +69,17 @@ class CardCart extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 2.0),
-                    Text(
-                      cartProduct['small_description'][LANG],
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 10.0,
-                        color: Colors.grey[400],
-                      ),
-                    ),
+                    // Text(
+                    //   cartProduct['small_description'][LANG],
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: TextStyle(
+                    //     fontSize: 10.0,
+                    //     color: Colors.grey[400],
+                    //   ),
+                    // ),
                     SizedBox(height: 2.0),
                     Text(
-                      cartProduct['soldBy'][LANG],
+                      'Oxkart Pvt. Ltd',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 10.0,
@@ -92,16 +100,37 @@ class CardCart extends StatelessWidget {
                         children: <Widget>[
                           SizedBox(width: 1.0),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               print('Add');
+                              await store.updateCart({
+                                cartProduct['item']:
+                                    (int.parse(cartProduct['quantity']) + 1)
+                                        .toString()
+                              });
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Cart()));
                             },
                             child: Icon(Icons.add,
                                 size: 16.0, color: Colors.grey[600]),
                           ),
-                          Text(cartProduct['requested_amount']),
+                          Text(cartProduct['quantity']),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               print('Remove');
+                              if (cartProduct['quantity'] == '1') return;
+                              await store.updateCart({
+                                cartProduct['item']:
+                                    (int.parse(cartProduct['quantity']) - 1)
+                                        .toString()
+                              });
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Cart()));
                             },
                             child: Icon(Icons.remove,
                                 size: 16.0, color: Colors.grey[600]),
@@ -110,10 +139,10 @@ class CardCart extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Text(
-                      "\u20B9" + cartProduct['price'],
-                      style: TextStyle(fontSize: 16.0, color: Colors.green),
-                    ),
+                    // Text(
+                    //   "\u20B9" + cartProduct['price'],
+                    //   style: TextStyle(fontSize: 16.0, color: Colors.green),
+                    // ),
                   ],
                 ),
               ),

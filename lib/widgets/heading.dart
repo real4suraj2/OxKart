@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oxkart/screens/products_screen.dart';
 
 class Heading extends StatelessWidget {
   Heading(this.heading);
@@ -12,12 +13,18 @@ class Heading extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(left: 12.0),
             child: Text(
-              '$heading',
+              '$heading'.toUpperCase(),
               style: TextStyle(fontSize: 20.0),
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Products(heading),
+                  ));
+            },
             child: Container(
               margin: EdgeInsets.only(right: 12.0),
               child: Text(

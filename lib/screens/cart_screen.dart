@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:oxkart/screens/dashboard_screen.dart';
+import 'package:oxkart/services/store.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
 
-import 'package:oxkart/mock.dart';
+// import 'package:oxkart/mock.dart'; --> Shift to firestore complete
 import 'package:oxkart/keys.dart';
 
 import 'package:oxkart/widgets/card_cart.dart';
@@ -13,9 +15,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  List<Widget> cartItems =
-      List.generate(CART_PRODUCTS.length, (i) => CardCart(CART_PRODUCTS[i]));
-
+  Store store = Store();
   Razorpay razorpay;
   @override
   void initState() {
@@ -34,6 +34,7 @@ class _CartState extends State<Cart> {
     razorpay.clear();
   }
 
+  // Left unused till backend completes
   void openCheckout() {
     var options = {
       "key": keyId,
@@ -68,6 +69,24 @@ class _CartState extends State<Cart> {
     Toast.show("External Wallet", context);
   }
 
+  Widget cartItemWidget() {
+    return FutureBuilder(
+      builder: (context, snap) {
+        if (snap.connectionState == ConnectionState.none &&
+                snap.hasData == null ||
+            snap.data == null) {
+          return Container();
+        }
+        return ListView.builder(
+            itemCount: snap.data.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) =>
+                CardCart(snap.data[index]));
+      },
+      future: store.cart,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,18 +98,57 @@ class _CartState extends State<Cart> {
         child: Stack(
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height - 200.0,
-              child: ListView.builder(
-                  itemCount: CART_PRODUCTS.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int index) =>
-                      cartItems[index]),
+              height: MediaQuery.of(context).size.height - 150.0,
+              child: cartItemWidget(),
             ),
             Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
-                onTap: () {
-                  openCheckout();
+                onTap: () async {
+                  // openCheckout();
+                  int length = (await store.cart).length;
+                  if (length == 0)
+                    return Toast.show("Add products first!", context);
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Order Confirmation'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                  'Please review your cart before placing order. You will soon receive a call from us once you place your order')
+                            ],
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                                child: Text("Confirm"),
+                                textColor: Colors.white,
+                                color: Colors.green,
+                                onPressed: () async {
+                                  await store.placeOrder();
+                                  Navigator.pop(context);
+                                  Toast.show("Order Placed! Keep Oxkarting :)",
+                                      context,
+                                      duration: Toast.LENGTH_LONG);
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              Dashboard()));
+                                }),
+                            FlatButton(
+                                child: Text("Cancel"),
+                                textColor: Colors.white,
+                                color: Colors.green,
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        );
+                      });
                 },
                 child: Container(
                   height: 50.0,

@@ -12,8 +12,9 @@ class Profile extends StatelessWidget {
               child: Text("Log Out"),
               textColor: Colors.white,
               color: Colors.green,
-              onPressed: () {
-                Auth().signOutUser(context);
+              onPressed: () async {
+                await Auth().signOutUser(context);
+                // Navigator.pop(context);
               }),
         ),
       ),

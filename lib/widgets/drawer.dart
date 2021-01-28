@@ -32,6 +32,7 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(
             icon: Icons.store,
             text: 'Sell on oxkart',
+            onTap: () {},
           ),
           _createDrawerItem(
             icon: Icons.local_phone,

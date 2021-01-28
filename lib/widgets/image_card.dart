@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:oxkart/constants.dart';
+// import 'package:oxkart/constants.dart';
+import 'package:oxkart/screens/product_screen.dart';
 
 class ImageCard extends StatelessWidget {
-  ImageCard(this.uri, this.info, this.price);
+  ImageCard(this.url, this.info, this.price);
 
-  final String uri;
+  final String url;
   final String info;
   final String price;
 
@@ -17,7 +18,11 @@ class ImageCard extends StatelessWidget {
       margin: EdgeInsets.all(12.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, productRoute);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Product(url, info, price),
+              ));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,16 +33,20 @@ class ImageCard extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.green),
               ),
-              child: Center(
-                child: Image.asset('$uri'),
+              child: Image.network(
+                '$url',
+                fit: BoxFit.fill,
               ),
+              // child: Center(
+              //   child: Image.network('$uri'),
+              // ),
             ),
             Container(
               child: Text('$info',
                   style: TextStyle(fontSize: 16.0, color: Colors.grey[700])),
             ),
             Container(
-              child: Text('$price', style: TextStyle(fontSize: 18.0)),
+              child: Text('$price.00', style: TextStyle(fontSize: 18.0)),
             ),
           ],
         ),
